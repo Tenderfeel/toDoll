@@ -1,6 +1,6 @@
 (function(win, $){
 	var toDoll = win.toDoll || {};
-
+	
     toDoll.todo = [];
 
     toDoll.wellCount = 0;//焦らしカウンタ
@@ -334,7 +334,6 @@
          */
         clearConf:function(){
             var count = this.Todo.getIndex();
-            console.log(count,toDoll.busy);
 
             if(toDoll.busy){
                 return false;
@@ -415,6 +414,29 @@
             this.commandPanel.setAttribute('data-effect', 'fadeOut');//コマンド隠す
             this.addFormPanel.setAttribute('data-effect', 'fadeOut');//フォーム隠す
         },
+        
+        /**
+         * ToDo削除処理
+         */
+        removeToDo:function(data){
+        	var l, i=0;
+        	
+        	if(!this.removeCheckedToDo.length){
+        		return data;
+        	}
+        	
+        	var id = this.removeCheckedToDo.shift();
+               		
+           //該当するデータを検索
+           for (l = data.length; i < l; i++) {
+               if (data[i].tid == id) {
+                    data.splice(i,1);
+               		return this.removeToDo(data);
+               }
+           }
+        	
+        },
+        
 
        /**
         * ToDo削除
@@ -422,31 +444,20 @@
         * @param {string} ans confirmの答え
         */
         remove: function(ans) {
-            var data, l, i=0;
-
+           var data;
            var count = this.Todo.getIndex();
            var that = this;
-
+           
            if(ans === "yes"){
                this.Assistant.reset()
                    .setTalk('remove','before').setTalk('remove','after')
                    .setTalk('waiting').talk();
 
-               //いったん全データを取得
-               data = this.Todo.getData();
-
-               this.removeCheckedToDo.each(function(id){
-                   //該当するデータを検索
-                   for (l = data.length; i < l; i++) {
-                       if (data[i].tid == id) {
-                           data.splice(i,1);
-                           break;
-                       }
-                   }
-               });
-
+               data = this.removeToDo(this.Todo.getData());
+               
                //データを保存
                this.Todo.setData(data);
+               this.removeCheckedToDo = [];
 
                if(data.length === 0){
                    $('container').removeClass('showTodo');
@@ -591,7 +602,6 @@
          * @param id {string}
          */
         editCancel:function(_ans, id){
-            console.log(id);
             this.Assistant.reset().setTalk('edit','cancel').talk();
             this.hideChangeForm(id);
         }

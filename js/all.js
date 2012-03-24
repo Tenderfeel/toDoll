@@ -441,7 +441,6 @@
          */
         load:function(){
             var that = this;
-            //console.log('Assistant load');
             that.talk(that.options.voice.loading);
 
             return new Request.JSON({
@@ -452,8 +451,7 @@
                     that.talk();
                 },
                 onFailure:function(){
-                    console.log('error');
-                    that.talk(that.options.voice.error);
+                    that.SetTalk(that.options.voice.error).talk();
                 }
             }).get();
         },
@@ -482,8 +480,6 @@
             }
 
             if(scenario.length){
-                //console.log(scenario,voice['text']);
-
                 this.talkTimer = setTimeout(function(){
                     return that.vocalCodes(scenario);
                 }, (voice.delay + pending));
@@ -500,7 +496,6 @@
          * 台詞再生の重複を防ぐ
          */
         reset:function(){
-            //console.log('Assistant reset');
             this.Scenario.clearBook();
             clearTimeout(this.talkTimer);
             this.talking = false;
@@ -517,8 +512,7 @@
 
         //台本に追加
         setTalk:function(action, opt_when){
-            //console.log('Assistant setTalk:', this.talking, action, opt_when, this.Scenario.bookSize());
-
+        	
             if(typeof action === 'string'){
                 this.Scenario.setBook(action, opt_when);
             }else if(typeOf(action) === 'array'){
@@ -605,8 +599,8 @@
 
 
 (function(win, $){
-    var toDoll = win.toDoll || {};
-
+	var toDoll = win.toDoll || {};
+	
     toDoll.todo = [];
 
     toDoll.wellCount = 0;//焦らしカウンタ
@@ -625,22 +619,20 @@
     /**
      * @constructor
      */
-    toDoll.Controller = new Class({
-        Implements:[Options, Events],
+	toDoll.Controller = new Class({
+		Implements:[Options, Events],
 
-        options:{
-            todoOptions:{},
-            assistantOptions:{}
-        },
+		options:{
+		    todoOptions:{},
+		    assistantOptions:{}
+		},
 
-        //
-        initialize:function(option){
-            this.setOptions(option);
+		//
+		initialize:function(option){
+			this.setOptions(option);
 
-            this.Assistant = new toDoll.Assistant(this.options.assistantOptions);
-
+			this.Assistant = new toDoll.Assistant(this.options.assistantOptions);
             this.options.todoOptions['max'] = this.Assistant.maxTaskLen;
-
             this.Todo = new toDoll.ToDo(this.options.todoOptions);
 
             this.container = $('todo');
@@ -675,13 +667,13 @@
                 }
             });
 
-        },
+		},
 
 
         /**
          * ToDo確認
          */
-        check:function(){
+		check:function(){
 
             this.Assistant.reset().setTalk('check','before');
 
@@ -689,11 +681,11 @@
                 return false;
             }
 
-            //ToDoがひとつも登録されていない
+			 //ToDoがひとつも登録されていない
             if (! this.Todo.isEmpty()) {
-                this.Assistant.setTalk('check','empty')
-                    .setTalk('waiting')
-                    .talk();
+            	this.Assistant.setTalk('check','empty')
+                                     .setTalk('waiting')
+                                     .talk();
                 $('container').removeClass('showTodo');
                 return true;
 
@@ -705,7 +697,7 @@
 
             }
 
-        },
+		},
 
         /**
          * リスト更新
@@ -780,11 +772,11 @@
          * @param data
          * @param compFlg
          */
-        _createTodoHTML:function(data){
+		_createTodoHTML:function(data){
 
-            var  compFlg = data.complete ? ' complete' : '';
+           var  compFlg = data.complete ? ' complete' : '';
 
-            var  html = '<span class="todoTxtItem" data-tid="'+ data.tid + '">' + data.txt + '</span>';
+           var  html = '<span class="todoTxtItem" data-tid="'+ data.tid + '">' + data.txt + '</span>';
 
             if(compFlg){
                 var date = new Date(data.complete);
@@ -806,7 +798,7 @@
             html +=  '</div>';
 
             return new Element('div', {"id":'todoitem-' + data.tid, 'class':'todoItem' + compFlg, 'html':html});
-        },
+		},
 
         /**
          * ToDo追加するときのフォーム表示演出
@@ -820,8 +812,8 @@
             }
 
             this.Assistant.reset()
-                .setTalk('add','before')
-                .setTalk('add', 'waiting');
+                                .setTalk('add','before')
+                                .setTalk('add', 'waiting');
 
             this.Todo.ADDFLG = true;
 
@@ -843,9 +835,9 @@
          * 追加します
          */
         addEnter:function(){
-            this.addForm = $('add-text');
+        	this.addForm = $('add-text');
             var text = this.addForm.value;
-            this.Assistant.reset();
+			this.Assistant.reset();
 
             var check = this.Assistant.validation(text);
 
@@ -856,11 +848,11 @@
             }
 
             if(check.length > 0){
-                this.Assistant.setTalk('validation', check.shift());
-                this.Assistant.setTalk('add', 'waiting');
-                this.Assistant.talk();
-                this.addForm.value = '';
-                return false;
+            	this.Assistant.setTalk('validation', check.shift());
+            	this.Assistant.setTalk('add', 'waiting');
+            	this.Assistant.talk();
+            	this.addForm.value = '';
+            	return false;
             }
 
             this.Assistant.setTalk('add', 'execute').setTalk('waiting').talk();
@@ -899,7 +891,7 @@
             //コンプリートフラグ
             data.complete =  Date.now();
             this.Assistant.reset()
-                .setTalk('complete', 'normal_random');
+                                 .setTalk('complete', 'normal_random');
 
             //フラグを更新してデータを保存
             this.Todo.setData(data, Number( id ));
@@ -911,7 +903,7 @@
 
             this.Assistant.setTalk('waiting').talk();
 
-            this.reflesh(true);
+	        this.reflesh(true);
 
         },
 
@@ -1016,62 +1008,74 @@
 
             //TODO フォームとコマンドどちらも表示されている可能性がある。けど(ﾟεﾟ)ｷﾆｼﾅｲ!!
             //this.addFormPanel.getAttribute('data-effect');
-            //this.commandPanel.getAttribute('data-effect');
+           //this.commandPanel.getAttribute('data-effect');
 
             this.confirmPanel.setAttribute('data-effect', 'fadeIn');//確認出す
             this.commandPanel.setAttribute('data-effect', 'fadeOut');//コマンド隠す
             this.addFormPanel.setAttribute('data-effect', 'fadeOut');//フォーム隠す
         },
-
+        
         /**
-         * ToDo削除
-         * IDはthis.removeCheckedToDoの中に配列で
-         * @param {string} ans confirmの答え
+         * ToDo削除処理
          */
+        removeToDo:function(data){
+        	var l, i=0;
+        	
+        	if(!this.removeCheckedToDo.length){
+        		return data;
+        	}
+        	
+        	var id = this.removeCheckedToDo.shift();
+               		
+           //該当するデータを検索
+           for (l = data.length; i < l; i++) {
+               if (data[i].tid == id) {
+                    data.splice(i,1);
+               		return this.removeToDo(data);
+               }
+           }
+        	
+        },
+        
+
+       /**
+        * ToDo削除
+        * IDはthis.removeCheckedToDoの中に配列で
+        * @param {string} ans confirmの答え
+        */
         remove: function(ans) {
-            var data, l, i=0;
+           var data;
+           var count = this.Todo.getIndex();
+           var that = this;
+           
+           if(ans === "yes"){
+               this.Assistant.reset()
+                   .setTalk('remove','before').setTalk('remove','after')
+                   .setTalk('waiting').talk();
 
-            var count = this.Todo.getIndex();
-            var that = this;
+               data = this.removeToDo(this.Todo.getData());
+               
+               //データを保存
+               this.Todo.setData(data);
+               this.removeCheckedToDo = [];
 
-            if(ans === "yes"){
-                this.Assistant.reset()
-                    .setTalk('remove','before').setTalk('remove','after')
-                    .setTalk('waiting').talk();
+               if(data.length === 0){
+                   $('container').removeClass('showTodo');
+               }
 
-                //いったん全データを取得
-                data = this.Todo.getData();
+               //全部コンプしてたときの台詞
+               if(this.Todo.isFullComplete()){
+                   this.Assistant.setTalk('complete', 'fullcomp_random');
+               }
 
-                this.removeCheckedToDo.each(function(id){
-                    //該当するデータを検索
-                    for (l = data.length; i < l; i++) {
-                        if (data[i].tid == id) {
-                            data.splice(i,1);
-                            break;
-                        }
-                    }
-                });
+               this.reflesh(true);
 
-                //データを保存
-                this.Todo.setData(data);
+               return this.confirm(null);
 
-                if(data.length === 0){
-                    $('container').removeClass('showTodo');
-                }
+           }else{
 
-                //全部コンプしてたときの台詞
-                if(this.Todo.isFullComplete()){
-                    this.Assistant.setTalk('complete', 'fullcomp_random');
-                }
-
-                this.reflesh(true);
-
-                return this.confirm(null);
-
-            }else{
-
-                return this.confirm(ans);
-            }
+               return this.confirm(ans);
+           }
 
         },
 
@@ -1127,7 +1131,7 @@
          *
          */
         createChangeForm: function(  element ) {
-            var that = this;
+			var that = this;
             var id = element.getAttribute('data-tid');
             var input = new Element('input', {'type': 'text',
                 'value': element.get('text'),
@@ -1137,7 +1141,7 @@
                 'events':{
                     'keydown':function(e){
                         if(e.code === 13){
-                            that.editEnter(null, this.getAttribute('data-tid'));
+                               that.editEnter(null, this.getAttribute('data-tid'));
                         }
                     }
                 }});
@@ -1175,8 +1179,8 @@
 
             if(check.length > 0){
                 this.Assistant.setTalk('validation', check.shift())
-                    .setTalk('edit', 'waiting')
-                    .talk();
+                                    .setTalk('edit', 'waiting')
+                                    .talk();
                 this.editForm.value = '';
                 return false;
             }
@@ -1202,10 +1206,11 @@
             this.hideChangeForm(id);
         }
 
-    });
+	});
 
-    win.toDoll = toDoll;
+	win.toDoll = toDoll;
 })(window, document.id);
+
 
 (function(win, $) {
 
@@ -1213,8 +1218,6 @@
 	toDoll.enable = false;
 
 	var images = ['amazed', 'angry', 'bashful', 'cry', 'happy', 'joy', 'normal', 'sad', 'scornful', 'shy', 'surprise', 'trouble'];
-
-	console.log('window size...' + window.innerWidth + 'px / ' + window.innerHeight + 'px');
 
 	window.addEvents({
 		'load' : function() {
