@@ -1,58 +1,115 @@
-(function(win, $){
+(function(win, $) {
 
-    var toDool = win.toDool;
-    
-    var images = ['amazed', 'angry', 'bashful', 'cry', 'happy', 'joy', 'normal', 'sad', 'scornful', 'shy', 'surprise', 'trouble'];
+	var toDoll = win.toDoll;
+	toDoll.enable = false;
 
-    if(!!Browser.safari || !!Browser.chrome){
+	var images = ['amazed', 'angry', 'bashful', 'cry', 'happy', 'joy', 'normal', 'sad', 'scornful', 'shy', 'surprise', 'trouble'];
 
-        images.each(function(img){
-            new Image().src = 'http://webtecnote.com/jsdoit/todoll/img/jk/' + img + '.png';
-        });
+	console.log('window size...' + window.innerWidth + 'px / ' + window.innerHeight + 'px');
 
-        win.addEvents({
-            'domready' : function(){
+	window.addEvents({
+		'load' : function() {
+			document.body.addClass(Browser.name);
+		},
+		'domready' : function() {
+			if(supportCheck()) {
+				$('support-check-result').empty();
+				execute();
+			}
+		},
+		'resize' : function() {
+			if(supportCheck()) {
+				$('support-check-result').empty();
+				
+				if(!toDoll.enable) {
+					execute();
+				}
+			}
+		}
+	});
 
-                var Controller = new toDool.Controller();
+	function supportCheck() {
 
-                $('add-form').addEvent('submit', function(e){
-                    e.stop();
-                    Controller.addEnter();
-                    return false;
-                });
+		if(!!!Browser.safari && !!!Browser.chrome) {
+			$('container').addClass('supportCheckAlert');
+			$('support-check-result').set('html', 'Chrome または Safari でご覧下さい');
+			
+			if(!toDoll.enable) {
+				$('todoBox').addClass('hide');
+				$('user').addClass('hide');
+				$('container')
+				$('assistant-speech-baloon').set('text', '対応してないんだって');
+			}
 
-                /**
-                 * ボタンクリックDelegate
-                 * data-action="methodName" data-tid="todoId" data-param="parametor"
-                 */
-                document.addEvent('click:relay(button)', function(event, target){
-                    event.preventDefault();
-                    var action = target.getAttribute('data-action') || target.getParent().getAttribute('data-action');
-                    var tid = target.getAttribute('data-tid') || target.getParent().getAttribute('data-tid'); //ToDoのID
-                    var param = target.getAttribute('data-param');
+			return false;
+		}
+		
+		if(window.innerWidth < 800 || window.innerHeight < 500) {
+			$('container').addClass('supportCheckAlert');
+			
+			$('support-check-result').set('html', '横800px　縦500px以上の広さが必要です。<br>（900 x 500px以上推奨）');
 
-                    if(!!Controller[action]){
-                        if(param === 'well' &&  toDool.welLimit){
-                            Controller[action]('deny');
-                        }else{
-                            Controller[action]( param, tid);
-                        }
-                    }
+			if(!toDoll.enable) {
+				$('todoBox').addClass('hide');
+				$('user').addClass('hide');
+				$('container')
+				$('assistant-speech-baloon').set('text', 'もうちょっと離れてくれる？');
+			}
 
-                });
+			return false;
 
+		}
+		
+		$('container').removeClass('supportCheckAlert');
+		
+		return true;
 
-            }
+	};
 
-        });
-    }else{
+	function execute() {
 
-        window.addEvent('domready', function(){
-            $('todoBox').destroy();
-            $('assistant-voice').destroy();
-            $('user').destroy();
-            $('assistant').setAttribute('data-face', 'sad');
-            $('container').grab(new Element('p', {'id':'no-support', 'text':'お使いのブラウザには対応していません'}));
-        });
-    }
+		toDoll.enable = true;
+		$('container').addClass('enable');
+		
+		$('todoBox').removeClass('hide');
+		$('user').removeClass('hide');
+
+		images.each(function(img) {
+			new Image().src = 'http://webtecnote.com/jsdoit/todoll/img/jk/' + img + '.png';
+		});
+
+		win.addEvents({
+			'domready' : function() {
+
+				var Controller = new toDoll.Controller();
+
+				$('add-form').addEvent('submit', function(e) {
+					e.stop();
+					Controller.addEnter();
+					return false;
+				});
+				/**
+				 * ボタンクリックDelegate
+				 * data-action="methodName" data-tid="todoId" data-param="parametor"
+				 */
+				document.addEvent('click:relay(button)', function(event, target) {
+					event.preventDefault();
+					var action = target.getAttribute('data-action') || target.getParent().getAttribute('data-action');
+					var tid = target.getAttribute('data-tid') || target.getParent().getAttribute('data-tid');
+					//ToDoのID
+					var param = target.getAttribute('data-param');
+
+					if(!!Controller[action]) {
+						if(param === 'well' && toDoll.welLimit) {
+							Controller[action]('deny');
+						} else {
+							Controller[action](param, tid);
+						}
+					}
+
+				});
+			}
+		});
+	}
+
 })(window, document.id);

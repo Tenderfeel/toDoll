@@ -1,7 +1,7 @@
 (function(win, $){
-	var toDool = win.toDool || {};
+	var toDoll = win.toDoll || {};
 
-	toDool.Scenario = new Class({
+	toDoll.Scenario = new Class({
 		initialize:function(data){
 			this.data = data;
 			this.book = [];
@@ -106,5 +106,5 @@
 		}
 	});
 
-	win.toDool = toDool;
+	win.toDoll = toDoll;
 })(window, document.id);

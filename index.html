@@ -14,20 +14,20 @@
 </head>
 <body data-userpos="left" data-assistantpos="right">
 <div id="container">
+	<div id="support-check-result"></div>
     <div id="assistant">
         <div id="assistant-voice">
-            <div class="speech"><div id="assistant-speech-baloon" class="baloon">どうしたの？</div></div>
+            <div class="speech"><div id="assistant-speech-baloon" class="baloon"></div></div>
         </div>
     </div>
 
-    <div id="todoBox">
+    <div id="todoBox" class="hide">
         <article>
-            <div id="todo" ondragstart="onDragStart(event);"></div>
+            <div id="todo"></div>
         </article>
-
-        <!-- /#todoBox --></div>​
-    <div id="user">
-
+	</div>
+ ​
+    <div id="user" class="hide">
         <form id="add-form" class="dialog" data-effect="hide" data-title="Add">
             <p class="controll">
                 <input type="text" id="add-text" value="" placeholder="ToDoを入力">

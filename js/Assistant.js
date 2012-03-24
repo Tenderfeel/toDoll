@@ -1,5 +1,5 @@
 (function(win, $){
-	var toDool = win.toDool || {};
+	var toDoll = win.toDoll || {};
 	
 	/**
 	 * Class Assistant
@@ -8,7 +8,7 @@
 	 * voice format
 	 * {"text":"おはようございます！", "face":"joy", "delay":500}
 	 */
-	toDool.Assistant = new Class({
+	toDoll.Assistant = new Class({
 		Implements:[Options, Events],
 		options:{
 
@@ -66,7 +66,7 @@
 			this.baloon = $(this.options.baloon);
 			this.layer = $(this.options.layer);
 			
-			this.Scenario = new toDool.Scenario();
+			this.Scenario = new toDoll.Scenario();
 
             this.talkTimer = null;
 			this.scenario = null;
@@ -240,6 +240,6 @@
 		}
 	});
 	
-	win.toDool = toDool;
+	win.toDoll = toDoll;
 
 })(window, document.id);

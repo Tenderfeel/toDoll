@@ -1,7 +1,7 @@
 (function(win, $){
-	var toDool = win.toDool || {};
+	var toDoll = win.toDoll || {};
 	
-	toDool.ToDo = new Class({
+	toDoll.ToDo = new Class({
 		Implements:[Options],
 		
 		options:{
@@ -235,6 +235,6 @@
 
 	});
 
-	win.toDool = toDool;
+	win.toDoll = toDoll;
 
 })(window, document.id);

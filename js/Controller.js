@@ -1,11 +1,11 @@
 (function(win, $){
-	var toDool = win.toDool || {};
+	var toDoll = win.toDoll || {};
 
-    toDool.todo = [];
+    toDoll.todo = [];
 
-    toDool.wellCount = 0;//焦らしカウンタ
-    toDool.welLimit = false;//焦らしフラグ
-    toDool.busy = null; //（タイマー的な）処理中で忙しいんですフラグ
+    toDoll.wellCount = 0;//焦らしカウンタ
+    toDoll.welLimit = false;//焦らしフラグ
+    toDoll.busy = null; //（タイマー的な）処理中で忙しいんですフラグ
 
     Element.NativeEvents['webkitTransitionStart'] = 2;
     Element.NativeEvents['webkitTransitionEnd'] = 2;
@@ -19,7 +19,7 @@
     /**
      * @constructor
      */
-	toDool.Controller = new Class({
+	toDoll.Controller = new Class({
 		Implements:[Options, Events],
 
 		options:{
@@ -31,9 +31,9 @@
 		initialize:function(option){
 			this.setOptions(option);
 
-			this.Assistant = new toDool.Assistant(this.options.assistantOptions);
+			this.Assistant = new toDoll.Assistant(this.options.assistantOptions);
             this.options.todoOptions['max'] = this.Assistant.maxTaskLen;
-            this.Todo = new toDool.ToDo(this.options.todoOptions);
+            this.Todo = new toDoll.ToDo(this.options.todoOptions);
 
             this.container = $('todo');
             this.commandPanel = $('user-voice');
@@ -53,7 +53,7 @@
                 'mouseover:relay(.todoItem:not(.complete):not(.edit) > .todoTxtItem)': function(event, target){
                     event.preventDefault();
 
-                    if(!toDool.busy){
+                    if(!toDoll.busy){
                         that.Assistant.reset().setTalk('todoitem', 'mouseover_random').talk();
                     }
                 },
@@ -106,7 +106,7 @@
         reflesh:function(opt_append){
 
             var data = this.Todo.getData();
-            toDool.todo = [];
+            toDoll.todo = [];
 
             //全ToDoデータを画面から削除
             if(opt_append){
@@ -117,7 +117,7 @@
 
                 element = this._createTodoHTML(data[i]);
 
-                toDool.todo.push(element);
+                toDoll.todo.push(element);
 
                 if(opt_append){
                     this.container.grab(element);
@@ -134,7 +134,7 @@
             var afterWords;
             var data = this.Todo.getData();
 
-            toDool.busy = true;
+            toDoll.busy = true;
 
             var talk = [];
             for (var i = 0, l = data.length; i < l; i++) {
@@ -144,14 +144,14 @@
                     'delay':data[i].txt.length * 300,
                     callback:function(){
                         $('container').addClass('showTodo');
-                        $('todo').grab(toDool.todo.shift());
+                        $('todo').grab(toDoll.todo.shift());
                     }
                 });
             }
 
             afterWords = this.Assistant.getTalk('check','after');
             afterWords.getLast().callback = function(){
-                toDool.busy = null;
+                toDoll.busy = null;
             };
 
             talk.append(afterWords);
@@ -334,9 +334,9 @@
          */
         clearConf:function(){
             var count = this.Todo.getIndex();
-            console.log(count,toDool.busy);
+            console.log(count,toDoll.busy);
 
-            if(toDool.busy){
+            if(toDoll.busy){
                 return false;
             }
 
@@ -360,7 +360,7 @@
          */
         clear:function(ans, id){
 
-            if(toDool.busy){
+            if(toDoll.busy){
                 return false;
             }
 
@@ -374,10 +374,10 @@
 
                 this.Assistant.setTalk('waiting').talk();
 
-                toDool.busy = setTimeout(function(){
+                toDoll.busy = setTimeout(function(){
                     that.Todo.clear();
-                    toDool.busy = null;
-                    toDool.todo = [];
+                    toDoll.busy = null;
+                    toDoll.todo = [];
                     that.container.empty();//画面に表示しているリストを削除
                     $('container').removeClass('showTodo');
                 }, 5000);
@@ -484,15 +484,15 @@
                     break;
 
                 case 'well'://焦らす
-                    toDool.wellCount++; //焦らしカウントアップ
+                    toDoll.wellCount++; //焦らしカウントアップ
 
-                    if(toDool.wellCount > 3 || toDool.wellLimit){//仏の顔も３度までって言うじゃん？
+                    if(toDoll.wellCount > 3 || toDoll.wellLimit){//仏の顔も３度までって言うじゃん？
                         return  this.clear('deny');
 
                     }else{
                         var data = this.Assistant.getTalk('confirm', 'well');
                         var last = data.getLast();
-                        last.callback = function(){ toDool.welLimit = true; };
+                        last.callback = function(){ toDoll.welLimit = true; };
                         data.push(last);
 
                         this.Assistant.reset().setTalk(data).talk();
@@ -598,5 +598,5 @@
 
 	});
 
-	win.toDool = toDool;
+	win.toDoll = toDoll;
 })(window, document.id);

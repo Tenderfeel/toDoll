@@ -6,9 +6,9 @@
  */
 
 (function(win, $){
-    var toDool = win.toDool || {};
+    var toDoll = win.toDoll || {};
 
-    toDool.ToDo = new Class({
+    toDoll.ToDo = new Class({
         Implements:[Options],
 
         options:{
@@ -241,14 +241,14 @@
 
     });
 
-    win.toDool = toDool;
+    win.toDoll = toDoll;
 
 })(window, document.id);
 
 (function(win, $){
-    var toDool = win.toDool || {};
+    var toDoll = win.toDoll || {};
 
-    toDool.Scenario = new Class({
+    toDoll.Scenario = new Class({
         initialize:function(data){
             this.data = data;
             this.book = [];
@@ -353,11 +353,11 @@
         }
     });
 
-    win.toDool = toDool;
+    win.toDoll = toDoll;
 })(window, document.id);
 
 (function(win, $){
-    var toDool = win.toDool || {};
+    var toDoll = win.toDoll || {};
 
     /**
      * Class Assistant
@@ -366,7 +366,7 @@
      * voice format
      * {"text":"おはようございます！", "face":"joy", "delay":500}
      */
-    toDool.Assistant = new Class({
+    toDoll.Assistant = new Class({
         Implements:[Options, Events],
         options:{
 
@@ -424,7 +424,7 @@
             this.baloon = $(this.options.baloon);
             this.layer = $(this.options.layer);
 
-            this.Scenario = new toDool.Scenario();
+            this.Scenario = new toDoll.Scenario();
 
             this.talkTimer = null;
             this.scenario = null;
@@ -599,19 +599,19 @@
         }
     });
 
-    win.toDool = toDool;
+    win.toDoll = toDoll;
 
 })(window, document.id);
 
 
 (function(win, $){
-    var toDool = win.toDool || {};
+    var toDoll = win.toDoll || {};
 
-    toDool.todo = [];
+    toDoll.todo = [];
 
-    toDool.wellCount = 0;//焦らしカウンタ
-    toDool.welLimit = false;//焦らしフラグ
-    toDool.busy = null; //（タイマー的な）処理中で忙しいんですフラグ
+    toDoll.wellCount = 0;//焦らしカウンタ
+    toDoll.welLimit = false;//焦らしフラグ
+    toDoll.busy = null; //（タイマー的な）処理中で忙しいんですフラグ
 
     Element.NativeEvents['webkitTransitionStart'] = 2;
     Element.NativeEvents['webkitTransitionEnd'] = 2;
@@ -625,7 +625,7 @@
     /**
      * @constructor
      */
-    toDool.Controller = new Class({
+    toDoll.Controller = new Class({
         Implements:[Options, Events],
 
         options:{
@@ -637,11 +637,11 @@
         initialize:function(option){
             this.setOptions(option);
 
-            this.Assistant = new toDool.Assistant(this.options.assistantOptions);
+            this.Assistant = new toDoll.Assistant(this.options.assistantOptions);
 
             this.options.todoOptions['max'] = this.Assistant.maxTaskLen;
 
-            this.Todo = new toDool.ToDo(this.options.todoOptions);
+            this.Todo = new toDoll.ToDo(this.options.todoOptions);
 
             this.container = $('todo');
             this.commandPanel = $('user-voice');
@@ -661,7 +661,7 @@
                 'mouseover:relay(.todoItem:not(.complete):not(.edit) > .todoTxtItem)': function(event, target){
                     event.preventDefault();
 
-                    if(!toDool.busy){
+                    if(!toDoll.busy){
                         that.Assistant.reset().setTalk('todoitem', 'mouseover_random').talk();
                     }
                 },
@@ -714,7 +714,7 @@
         reflesh:function(opt_append){
 
             var data = this.Todo.getData();
-            toDool.todo = [];
+            toDoll.todo = [];
 
             //全ToDoデータを画面から削除
             if(opt_append){
@@ -725,7 +725,7 @@
 
                 element = this._createTodoHTML(data[i]);
 
-                toDool.todo.push(element);
+                toDoll.todo.push(element);
 
                 if(opt_append){
                     this.container.grab(element);
@@ -742,7 +742,7 @@
             var afterWords;
             var data = this.Todo.getData();
 
-            toDool.busy = true;
+            toDoll.busy = true;
 
             var talk = [];
             for (var i = 0, l = data.length; i < l; i++) {
@@ -752,14 +752,14 @@
                     'delay':data[i].txt.length * 300,
                     callback:function(){
                         $('container').addClass('showTodo');
-                        $('todo').grab(toDool.todo.shift());
+                        $('todo').grab(toDoll.todo.shift());
                     }
                 });
             }
 
             afterWords = this.Assistant.getTalk('check','after');
             afterWords.getLast().callback = function(){
-                toDool.busy = null;
+                toDoll.busy = null;
             };
 
             talk.append(afterWords);
@@ -943,7 +943,7 @@
         clearConf:function(){
             var count = this.Todo.getIndex();
 
-            if(toDool.busy){
+            if(toDoll.busy){
                 return false;
             }
 
@@ -967,7 +967,7 @@
          */
         clear:function(ans, id){
 
-            if(toDool.busy){
+            if(toDoll.busy){
                 return false;
             }
 
@@ -981,10 +981,10 @@
 
                 this.Assistant.setTalk('waiting').talk();
 
-                toDool.busy = setTimeout(function(){
+                toDoll.busy = setTimeout(function(){
                     that.Todo.clear();
-                    toDool.busy = null;
-                    toDool.todo = [];
+                    toDoll.busy = null;
+                    toDoll.todo = [];
                     that.container.empty();//画面に表示しているリストを削除
                     $('container').removeClass('showTodo');
                 }, 5000);
@@ -1091,15 +1091,15 @@
                     break;
 
                 case 'well'://焦らす
-                    toDool.wellCount++; //焦らしカウントアップ
+                    toDoll.wellCount++; //焦らしカウントアップ
 
-                    if(toDool.wellCount > 3 || toDool.wellLimit){//仏の顔も３度までって言うじゃん？
+                    if(toDoll.wellCount > 3 || toDoll.wellLimit){//仏の顔も３度までって言うじゃん？
                         return  this.clear('deny');
 
                     }else{
                         var data = this.Assistant.getTalk('confirm', 'well');
                         var last = data.getLast();
-                        last.callback = function(){ toDool.welLimit = true; };
+                        last.callback = function(){ toDoll.welLimit = true; };
                         data.push(last);
 
                         this.Assistant.reset().setTalk(data).talk();
@@ -1204,68 +1204,125 @@
 
     });
 
-    win.toDool = toDool;
+    win.toDoll = toDoll;
 })(window, document.id);
 
-(function(win, $){
+(function(win, $) {
 
-    var toDool = win.toDool;
+	var toDoll = win.toDoll;
+	toDoll.enable = false;
 
-    var images = ['amazed', 'angry', 'bashful', 'cry', 'happy', 'joy', 'normal', 'sad', 'scornful', 'shy', 'surprise', 'trouble'];
+	var images = ['amazed', 'angry', 'bashful', 'cry', 'happy', 'joy', 'normal', 'sad', 'scornful', 'shy', 'surprise', 'trouble'];
 
-    if(!!Browser.safari || !!Browser.chrome){
+	console.log('window size...' + window.innerWidth + 'px / ' + window.innerHeight + 'px');
 
-        images.each(function(img){
-            new Image().src = 'http://webtecnote.com/jsdoit/todoll/img/jk/' + img + '.png';
-        });
+	window.addEvents({
+		'load' : function() {
+			document.body.addClass(Browser.name);
+		},
+		'domready' : function() {
+			if(supportCheck()) {
+				$('support-check-result').empty();
+				execute();
+			}
+		},
+		'resize' : function() {
+			if(supportCheck()) {
+				$('support-check-result').empty();
+				
+				if(!toDoll.enable) {
+					execute();
+				}
+			}
+		}
+	});
 
-        win.addEvents({
-            'domready' : function(){
+	function supportCheck() {
 
-                var Controller = new toDool.Controller({
+		if(!!!Browser.safari && !!!Browser.chrome) {
+			$('container').addClass('supportCheckAlert');
+			$('support-check-result').set('html', 'Chrome または Safari でご覧下さい');
+			
+			if(!toDoll.enable) {
+				$('todoBox').addClass('hide');
+				$('user').addClass('hide');
+				$('container')
+				$('assistant-speech-baloon').set('text', '対応してないんだって');
+			}
+
+			return false;
+		}
+		
+		if(window.innerWidth < 800 || window.innerHeight < 500) {
+			$('container').addClass('supportCheckAlert');
+			
+			$('support-check-result').set('html', '横800px　縦500px以上の広さが必要です。<br>（900 x 500px以上推奨）');
+
+			if(!toDoll.enable) {
+				$('todoBox').addClass('hide');
+				$('user').addClass('hide');
+				$('container')
+				$('assistant-speech-baloon').set('text', 'もうちょっと離れてくれる？');
+			}
+
+			return false;
+
+		}
+		
+		$('container').removeClass('supportCheckAlert');
+		
+		return true;
+
+	};
+
+	function execute() {
+
+		toDoll.enable = true;
+		$('container').addClass('enable');
+		
+		$('todoBox').removeClass('hide');
+		$('user').removeClass('hide');
+
+		images.each(function(img) {
+			new Image().src = 'http://webtecnote.com/jsdoit/todoll/img/jk/' + img + '.png';
+		});
+
+		win.addEvents({
+			'domready' : function() {
+
+				var Controller = new toDoll.Controller({
                     assistantOptions:{
                         scenario:'./zqR4/js'
                     }
                 });
 
-                $('add-form').addEvent('submit', function(e){
-                    e.stop();
-                    Controller.addEnter();
-                    return false;
-                });
+				$('add-form').addEvent('submit', function(e) {
+					e.stop();
+					Controller.addEnter();
+					return false;
+				});
+				/**
+				 * ボタンクリックDelegate
+				 * data-action="methodName" data-tid="todoId" data-param="parametor"
+				 */
+				document.addEvent('click:relay(button)', function(event, target) {
+					event.preventDefault();
+					var action = target.getAttribute('data-action') || target.getParent().getAttribute('data-action');
+					var tid = target.getAttribute('data-tid') || target.getParent().getAttribute('data-tid');
+					//ToDoのID
+					var param = target.getAttribute('data-param');
 
-                /**
-                 * ボタンクリックDelegate
-                 * data-action="methodName" data-tid="todoId" data-param="parametor"
-                 */
-                document.addEvent('click:relay(button)', function(event, target){
-                    event.preventDefault();
-                    var action = target.getAttribute('data-action') || target.getParent().getAttribute('data-action');
-                    var tid = target.getAttribute('data-tid') || target.getParent().getAttribute('data-tid'); //ToDoのID
-                    var param = target.getAttribute('data-param');
+					if(!!Controller[action]) {
+						if(param === 'well' && toDoll.welLimit) {
+							Controller[action]('deny');
+						} else {
+							Controller[action](param, tid);
+						}
+					}
 
-                    if(!!Controller[action]){
-                        if(param === 'well' &&  toDool.welLimit){
-                            Controller[action]('deny');
-                        }else{
-                            Controller[action]( param, tid);
-                        }
-                    }
+				});
+			}
+		});
+	}
 
-                });
-
-
-            }
-
-        });
-    }else{
-
-        window.addEvent('domready', function(){
-            $('todoBox').destroy();
-            $('assistant-voice').destroy();
-            $('user').destroy();
-            $('assistant').setAttribute('data-face', 'sad');
-            $('container').grab(new Element('p', {'id':'no-support', 'text':'お使いのブラウザには対応していません'}));
-        });
-    }
 })(window, document.id);

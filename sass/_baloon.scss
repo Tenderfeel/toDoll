@@ -9,22 +9,27 @@
 }
 
 .baloon {
-    position: relative;
-    margin: 0;
-    padding:10px;
-    max-width:20em;
-    min-width:10em;
-    @include border-radius(10px);
+  position: relative;
+  margin: 0;
+  padding:10px;
+  max-width:20em;
+  min-width:10em;
+  @include border-radius(10px);
+  
+  &:empty{
+      display:none;
+  }
+  
+  &::before,
+  &::after {
+    content: ' ';
+      display:block;
+      position: absolute;
+      width: 0;
+      height:0;
+  }
 }
 
-.baloon::before,
-.baloon::after {
-	content: ' ';
-    display:block;
-    position: absolute;
-    width: 0;
-    height:0;
-}
 
 .speech {
 
@@ -52,6 +57,14 @@
         }
 
     }
+}
+
+.firefox .speech {
+  display:block;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: -2em;
 }
 
 body[data-npcpos=left] {
