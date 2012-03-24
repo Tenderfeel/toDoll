@@ -83,7 +83,7 @@
          */
 		load:function(){
 			var that = this;
-			//console.log('Assistant load');
+			
 			that.talk(that.options.voice.loading);
 
 			return new Request.JSON({
@@ -94,8 +94,7 @@
                     that.talk();
 				},
 				onFailure:function(){
-                    console.log('error');
-					that.talk(that.options.voice.error);
+					that.setTalk(that.options.voice.error).talk();
 				}
 			}).get();
 		},
@@ -124,7 +123,6 @@
             }
 				
 			if(scenario.length){
-				//console.log(scenario,voice['text']);
 				
 				this.talkTimer = setTimeout(function(){
 					return that.vocalCodes(scenario);
@@ -142,7 +140,7 @@
          * 台詞再生の重複を防ぐ
          */
         reset:function(){
-            //console.log('Assistant reset');
+
             this.Scenario.clearBook();
             clearTimeout(this.talkTimer);
             this.talking = false;

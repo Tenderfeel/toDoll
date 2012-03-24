@@ -139,7 +139,6 @@
 
                 update: {
                     for (l = d.length; i < l; i++) {
-                        console.log('update1:', d[i]);
                         if (d[i].tid == id) {
                             d[i] = data;
                             break update;
