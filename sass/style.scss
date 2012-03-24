@@ -1,0 +1,71 @@
+@charset 'UTF-8';
+
+@import "compass/reset";
+@import "compass/css3";
+@import url("http://fonts.googleapis.com/css?family=Happy+Monkey");
+
+html,body {
+    margin:0;
+    padding:0;
+    height:100%;
+    width:100%;
+    @include background(linear-gradient(top, #fbeaee 0%, #f9e1eb 100%));
+}
+
+*, ::before, ::after {
+    @include box-sizing(border-box);
+}
+
+input, button {
+    @include appearance(none);
+    border:0;
+    background:none;
+}
+
+#container {
+  overflow: hidden;
+    background:#fff;
+    background-size:900px 500px;
+    position:relative;
+    width:900px;
+    height:500px;
+    margin:30px auto;
+    @include border-radius(20px);
+}
+
+[data-effect=hide],
+[data-effect=fadeOut]{
+    opacity:0 !important;
+    z-index:0 !important;
+}
+
+[data-effect=show],
+[data-effect=fadeIn]{
+    opacity:1 !important;
+    z-index:10 !important;
+}
+[data-effect=hide],
+[data-effect=show] {
+    @include transition-duration(0);
+}
+
+button{
+    @include background(linear-gradient(top, rgba(242,242,242,1) 0%,rgba(216,216,216,1) 100%));
+    &:active{
+        background:#ccc;
+    }
+}
+
+#no-support {
+    margin:200px 0 200px -100px;
+    text-align: center;
+}
+
+.hide {
+    display:none !important;
+}
+
+@import "_baloon";
+@import "_user";
+@import "_todo";
+@import "_assistant";

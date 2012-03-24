@@ -1,0 +1,78 @@
+@charset 'UTF-8';
+
+.speech{
+    position: relative;
+    overflow:hidden;
+    @include display-box;
+    @include box-align(center);
+    @include box-pack(end);
+}
+
+.baloon {
+    position: relative;
+    margin: 0;
+    padding:10px;
+    max-width:20em;
+    min-width:10em;
+    @include border-radius(10px);
+}
+
+.baloon::before,
+.baloon::after {
+	content: ' ';
+    display:block;
+    position: absolute;
+    width: 0;
+    height:0;
+}
+
+.speech {
+
+    .baloon {
+        margin:0 10px;
+        background-color:#fff;
+        border:solid 3px #ccc;
+
+        &::before{
+             border:10px solid;
+             right:-20px;
+             margin-top:-10px;
+             top:50%;
+             border-color:transparent transparent transparent #ccc;
+             @include transform(scale(1, 0.5));
+        }
+
+        &::after {
+             right:-10px;
+             margin-top:-5px;
+             top:50%;
+             border:5px solid;
+             border-color: transparent transparent transparent #fff;
+             @include transform(scale(1, 0.5));
+        }
+
+    }
+}
+
+body[data-npcpos=left] {
+    .speech .baloon::before{
+        left:-20px;
+        right:auto;
+        margin-top:-10px;
+        top:50%;
+        border-color:transparent #ccc transparent transparent;
+        @include transform(scale(1, 0.5));
+    }
+
+    .speech .baloon::after {
+         left:-10px;
+        right:auto;
+         margin-top:-5px;
+         top:50%;
+         border:5px solid;
+         border-color: transparent #fff transparent transparent;
+         @include transform(scale(1, 0.5));
+    }
+}
+
+

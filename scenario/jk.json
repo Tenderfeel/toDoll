@@ -1,0 +1,205 @@
+{
+    "start":[
+        {"text":"どうしたの？","face":"normal", "delay":3000}
+    ],
+
+    "todoitem":{
+        "mouseover_random":[
+            {"text":"ん？それがどうかした？","face":"normal", "delay":3000},
+            {"text":"え？", "face":"happy", "delay":2000},
+            {"text":"なんて言ったの？", "face":"normal", "delay":5000},
+            {"text":"よく聞こえないよ？", "face":"normal", "delay":5000},
+            {"text":"んん？", "face":"normal", "delay":2000}
+        ]
+    },
+
+    "edit":{
+      "start":[
+          {"text":"え？なになに？", "face":"happy", "delay":20000}
+      ],
+       "waiting":[
+           {"text":"……","face":"normal", "delay":3000},
+           {"text":"ん？", "face":"happy", "delay":2000},
+           {"text":"うんうん", "face":"normal", "delay":5000},
+           {"text":"言いかけてやめないでよぉ", "face":"trouble", "delay":5000},
+           {"text":"もっと大きな声で言って？", "face":"happy", "delay":6000},
+           {"text":"ね？", "face":"normal", "delay":5000},
+           {"text":"どうしたの？", "face":"normal", "delay":5000}
+       ],
+      "execute_random":[
+          {"text":"うん、わかった！", "face":"happy", "delay":3000},
+          {"text":"忘れないようにするね", "face":"joy", "delay":5000},
+          {"text":"おっけー！", "face":"happy", "delay":3000}
+      ],
+        "cancel":[
+            {"text":"なんだったの？","face":"normal", "delay":3000},
+            {"text":"まぁいいけど","face":"scornful", "delay":5000}
+        ]
+    },
+
+    "waiting":[
+        {"text":"なにかするの？", "face":"happy", "delay":20000},
+        {"text":"まだかな？", "face":"normal", "delay":10000},
+        {"text":"どうしたの？", "face":"normal", "delay":5000},
+        {"text":"何かしたいんじゃなかったの？", "face":"normal", "delay":10000}
+    ],
+
+    "check":{
+        "before":[
+            {"text":"えっ？","face":"surprise", "delay":1000},
+            {"text":"え～っとぉ…","face":"trouble", "delay":2000},
+            {"text":"私がいま覚えているのは…","face":"trouble", "delay":3000}
+        ],
+        "after":[
+            {"text":"これだけだよ", "face":"joy", "delay":2000}
+        ],
+        "empty":[
+            {"text":"まだなにもないよぉ","face":"amazed", "delay":4000}
+        ]
+    },
+
+    "add":{
+        "before":[
+            {"text":"は～い。まかせて！", "face":"happy", "delay":2000}
+        ],
+        "after":[],
+        "waiting":[
+            {"text":"決まったら教えてね", "face":"joy", "delay":10000, "pending":1000},
+	        {"text":"まだかな？", "face":"normal", "delay":10000},
+	        {"text":"何もしないの？", "face":"normal", "delay":10000},
+	        {"text":"………？", "face":"normal", "delay":10000},
+	        {"text":"………", "face":"normal", "delay":10000}
+        ],
+        "error":[
+            {"text":"……え？", "face":"normal", "delay":2000},
+            {"text":"ごめん聞こえなかった", "face":"amazed", "delay":2000}
+        ],
+        "cancel":[
+            {"text":"あれ？やめるんだ", "face":"normal", "delay":2000}
+        ],
+        "execute":[
+        	 {"text":"分かった。覚えとくね", "face":"joy", "delay":2000}
+        ]
+    },
+
+    "resume":{
+        "normal_random":[
+            {"text":"たいへんだね……", "face":"amazed", "delay":3000},
+            {"text":"終わってなかったの？", "face":"trouble", "delay":3000},
+            {"text":"ん。がんばって！", "face":"joy", "delay":3000},
+            {"text":"そういう事もあるよね", "face":"sad", "delay":3000}
+        ]
+    },
+
+    "complete":{
+        "normal_random":[
+            {"text":"がんばったじゃん！", "face":"happy", "delay":3000},
+            {"text":"終わったんだね！", "face":"joy", "delay":3000},
+            {"text":"おめでとう！", "face":"happy", "delay":3000},
+            {"text":"やったぁ！", "face":"joy", "delay":3000}
+        ],
+        "fullcomp_random":[
+            {"text":"すごーい！全部終わったよ！", "face":"happy", "delay":3000},
+            {"text":"え？全部終わったの？すごいじゃん！", "face":"joy", "delay":5000},
+            {"text":"すっきりしたね！", "face":"joy", "delay":3000},
+            {"text":"見直しちゃったぁ！", "face":"joy", "delay":3000}
+        ]
+    },
+
+    "remove":{
+        "conf":[
+            {"text":"忘れていいの？", "face":"normal", "delay":3000}
+        ],
+        "before":[
+            {"text":"は～い", "face":"joy", "delay":1500}
+        ],
+        "after":[
+            {"text":"ん。ちょっとすっきりしたかも？", "face":"happy", "delay":2000}
+        ]
+    },
+
+    "clear":{
+        "conf":[
+            {"text":"いいの？忘れちゃっても", "face":"normal", "delay":2000},
+            {"text":"あとで思い出せって言われても<br>ムリだけど", "face":"normal", "delay":10000},
+            {"text":"………どうするの？", "face":"trouble", "delay":6000},
+            {"text":"………聞いてる？", "face":"surprise", "delay":10000},
+            {"text":"………", "face":"scornful", "delay":10000}
+        ],
+        "empty":[
+            {"text":"まだなにも覚えてないよ？", "face":"trouble", "delay":3000}
+        ],
+
+        "before":[
+            {"text":"ん。ちょっと待ってね", "face":"normal", "delay":4000}
+        ],
+        "after":[
+            {"text":"忘れたよ～", "face":"happy", "delay":4000}
+        ]
+    },
+
+    "confirm":{
+        "cancel":[
+            {"text":"ん。わかった", "face":"normal", "delay":2000}
+        ],
+        "well":[
+            {"text":"はいはい", "face":"joy", "delay":2000},
+            {"text":"………", "face":"normal", "delay":5000},
+            {"text":"………どうするの？", "face":"normal", "delay":10000},
+            {"text":"ねぇ……まだ？", "face":"trouble", "delay":13000},
+            {"text":"もー………", "face":"scornful", "delay":10000}
+        ],
+        "deny":[
+            {"text":"やだ。もう待たないもん", "face":"scornful", "delay":4000}
+        ]
+    },
+    
+    "validation":{
+    	
+    	"empty":[
+    		{"text":"息吹きかけないでよぉ", "face":"shy", "delay":2000}
+    	],
+
+        "max":[
+        ],
+
+    	"over":[
+    		{"text":"もうちょっと短くしてよ", "face":"trouble", "delay":2000}
+    	],
+    	
+    	"complain":[
+    		{"text":"ぇえ？意味分かんない", "face":"normal", "delay":2000}
+    	],
+    	
+    	"dislike":[
+    		{"text":"ふ〜ん", "face":"normal", "delay":2000},
+    		{"text":"……そういうのに興味あるんだ", "face":"sad", "delay":2000}
+    	],
+    	
+    	"hate":[
+    		{"text":"……そんなこと覚えたくない", "face":"cry", "delay":2000, "pending":2000}
+    	],
+    	
+    	"detest":[
+    		{"text":"……最低", "face":"scornful", "delay":2000, "pending":2000}
+    	],
+    	
+		"cheer":[
+			{"text":"なにか…あった？", "face":"trouble", "delay":3000, "pending":2000},
+			{"text":"……", "face":"sad", "delay":4000},
+			{"text":"無理しないで。ね？", "face":"happy", "delay":4000}
+		],
+		
+		"cure":[
+			{"text":"や、やだ……そんなこと言わないで", "face":"cry", "delay":5000, "pending":500},
+			{"text":"……", "face":"cry", "delay":10000},
+			{"text":"……", "face":"sad", "delay":10000},
+			{"text":"……", "face":"normal", "delay":10000}
+		],
+		
+		"love":[
+			{"text":"もう……照れるじゃん", "face":"bashful", "delay":5000, "pending":500}
+		]
+    }
+
+}

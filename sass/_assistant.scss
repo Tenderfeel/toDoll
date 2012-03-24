@@ -1,0 +1,49 @@
+@charset 'UTF-8';
+
+
+#assistant-voice{
+    position:absolute;
+    width:20em;
+    left: 50%;
+    margin-left: -15em;
+    bottom:300px;
+}
+
+
+.showTodo {
+  
+  #assistant {
+    left: 70%;
+  }
+  
+  #assistant-voice {
+    width: 16em;
+    margin-left: -11em;
+  }
+}
+
+#assistant {
+    position:absolute;
+    bottom:0;
+    left: 50%;
+    width:600px;
+    height:450px;
+    margin-left: -300px;
+    background-repeat: no-repeat;
+    background-position: 85% bottom;
+    background-image:url('http://webtecnote.com/jsdoit/todoll/img/jk/normal.png');
+    
+    @include transition-property(left);
+    @include transition-duration(0.5s);
+    @include transition-timing-function(ease-in-out);
+
+    &[data-face=normal]{
+        background-image:url('http://webtecnote.com/jsdoit/todoll/img/jk/normal.png');
+    }
+
+    @each $face in amazed, angry, bashful, cry, happy, joy, normal, sad, scornful, shy, surprise, trouble{
+      &[data-face="#{$face}"] {
+        background-image: url('http://webtecnote.com/jsdoit/todoll/img/jk/#{$face}.png');
+      }
+    }
+}

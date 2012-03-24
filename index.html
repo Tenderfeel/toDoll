@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>ToDoll</title>
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js"></script>
+    <script type="text/javascript" src="js/mootools-more-date.js"></script>
+    <script src="js/Todo.js" type="text/javascript"></script>
+    <script src="js/Scenario.js" type="text/javascript"></script>
+    <script src="js/Assistant.js" type="text/javascript"></script>
+    <script src="js/Controller.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+</head>
+<body data-userpos="left" data-assistantpos="right">
+<div id="container">
+    <div id="assistant">
+        <div id="assistant-voice">
+            <div class="speech"><div id="assistant-speech-baloon" class="baloon">どうしたの？</div></div>
+        </div>
+    </div>
+
+    <div id="todoBox">
+        <article>
+            <div id="todo" ondragstart="onDragStart(event);"></div>
+        </article>
+
+        <!-- /#todoBox --></div>​
+    <div id="user">
+
+        <form id="add-form" class="dialog" data-effect="hide" data-title="Add">
+            <p class="controll">
+                <input type="text" id="add-text" value="" placeholder="ToDoを入力">
+                <button type="button" class="enter" id="add-enter" data-action="addEnter">覚えさせる</button>
+                <button type="button" class="cancel" id="add-cancel" data-action="addCancel">やめる</button>
+            </p>
+        </form>
+        <div id="user-voice" class="dialog" data-title="Command">
+            <button type="button" class="think check" id="check" data-action="check">覚えた事を教えて欲しい</button>
+            <button type="button" class="think create" id="add" data-action="add">新しく覚えてくれないか？</button>
+            <button type="button" class="think clear" id="clear" data-action="clearConf">全部忘れてくれ！！</button>
+        </div>
+        <div id="confirm" class="dialog" data-effect="hide" data-title="Confirm">
+            <button type="button" class="think" id="yes" data-param="yes">うん。頼む</button>
+            <button type="button" class="think" id="well" data-param="well">あー…ちょっと待って</button>
+            <button type="button" class="think" id="no" data-param="no">やっぱ止めとく</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

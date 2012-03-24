@@ -1,0 +1,156 @@
+@charset 'UTF-8';
+
+.todoItem {
+    position: relative;
+    display: table;
+    width: 100%;
+    overflow: hidden;
+    padding: 0;
+    margin-bottom:3px;
+    border: solid 1px #eee;
+    @include border-radius(5px);
+
+    &.remove {
+        background: #DDD;
+        border-color: #999;
+        @include box-shadow(0 0 5px #ccc);
+    }
+    
+    &:last-child {
+        margin-bottom:0;
+    }
+    
+    & > * {
+        display: table-cell;
+        vertical-align: middle;
+        cursor:pointer;
+    }
+    
+    &:not(.complete):not(.remove):not(.edit):hover {
+        @include background(linear-gradient(-90deg,rgb(255, 255, 168) 0%,rgb(255, 224, 130) 100%));
+    }
+
+    & .todoCtrl  {
+        padding:4px 10px 4px 0;
+        width: 110px;
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    & .resumeCtrl,
+    & .editCtrl {
+        display: none;
+    }
+
+    &.complete {
+        color: #aaa;
+        background: #F6F6F6;
+    }
+
+    &.edit .completeCtrl,
+    &.complete .completeCtrl {
+        display: none;
+    }
+
+    &.edit .editCtrl,
+    &.complete .resumeCtrl {
+        display: table-cell;
+    }
+
+    &.editCtrl {
+        width: 140px;
+    }
+
+
+}
+
+.editTodoItem{
+    border: solid 1px #CCC;
+    padding: 4px;
+    border-radius: 5px;
+    margin: 0;
+    width:100%;
+    @include box-shadow(inset 2px 2px 3px #eee);
+}
+
+.todoInput {
+    display: table;
+    width: 100%;
+    margin-bottom: 5px;
+    padding: 4px;
+    border-bottom: solid 1px #eee;
+    
+  & > * {
+      display: table-cell;
+  }
+  & input[type="text"] {
+      padding: 5px 8px;
+  }
+}
+
+.todoTime {
+    width: 170px;
+}
+
+.todoTxtItem {
+    padding: 4px 10px;
+}
+
+#todoBox {
+  position:relative;
+  width: 430px;
+  margin:20px;
+  height: 300px;
+  overflow-y: auto;
+  z-index:20;
+  @include display-box;
+  @include box-align(center);
+  @include box-pack(center);
+}
+
+
+#todo {
+  width:400px;
+  
+    button{
+      min-width: 50px;
+      height:26px;
+      color:#fff;
+      border: 1px solid #999;
+      color:#333;
+      @include border-radius(5px);
+      @include box-shadow(rgba(0,0,0,0.3));
+
+      &.btnEditUpdate {
+            color:#fff;
+            @include background(linear-gradient(top, rgba(191,210,85,1) 0%, rgba(142,185,42,1) 100%));
+
+            &:active {
+                background:rgba(142,185,42,1);
+            }
+       }
+
+       &.btnResume {
+            @include background(linear-gradient(top, rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%));
+       }
+
+      &:hover{}
+      &:active{}
+    }
+
+    time {
+    font-size: 10px;
+    width: 100px;
+    text-align: center;
+    }
+    
+    button.btnComp{
+      color:#fff;
+      border: 1px solid #3a98a8;
+      @include background(linear-gradient(top,#99dff5 0%, #02b0e6 100%));
+      
+      &:active {
+        background:#02b0e6;
+      }
+    }
+}
