@@ -16,7 +16,10 @@
 			scenario:'scenario/jk.json',
 
             /** @type {string} 立ち位置 */
-			position:'right',
+			//position:'right',
+			
+			/** @type {boolean} trueにした場合は半角英数を0.5文字として処理 */
+			english:false,
 
 			ngWords:{
         		//Lv1
@@ -35,18 +38,26 @@
 	       },
 
             voice:{
-                /** @type {Array} */
-                "loading":[{"text":"ごめん。ちょっと待って", "face":"normal", "delay":0}],
+                /** @type {Array} ローディング　*/
+                "loading":[{"text":"ちょっと待っててね……", "face":"normal", "delay":0}],
 
                 /** @type {Array} エラーメッセージ */
                 "error":[ {"text":"エラーがあったみたいです", "face":"normal", "delay":0}]
             },
 
+			/** @type {number} １タスクあたりの文字数 */
             maxWordLen:10,
+            
+            /** @type {number} タスク保存上限 */
             maxTaskLen:10,
+            
+            /** @type {number} 仏の顔は何度まで？ */
+            maxWellCount:3,
 
+			/**　@type {string} セリフを入れるふきだしのID */
             baloon:'assistant-speech-baloon',
 
+			/** @type {string} data-face属性を付与するID */
             layer:'assistant'
 		},
 
@@ -55,6 +66,16 @@
          * @type {boolean}
          */
 		talking:false,
+		
+		/**
+		 * タイマー処理中フラグ
+		 * @type {boolean}
+		 */
+		busy:false,
+		
+		wellCount : 0,//焦らしカウンタ
+		
+    　　　　　　welLimit : false,//焦らしフラグ
 
         /**
          * 初期化

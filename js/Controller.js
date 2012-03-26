@@ -3,9 +3,8 @@
 	
     toDoll.todo = [];
 
-    toDoll.wellCount = 0;//焦らしカウンタ
-    toDoll.welLimit = false;//焦らしフラグ
-    toDoll.busy = null; //（タイマー的な）処理中で忙しいんですフラグ
+    //toDoll.wellCount = 0;//焦らしカウンタ
+    //toDoll.welLimit = false;//焦らしフラグ
 
     Element.NativeEvents['webkitTransitionStart'] = 2;
     Element.NativeEvents['webkitTransitionEnd'] = 2;
@@ -53,7 +52,7 @@
                 'mouseover:relay(.todoItem:not(.complete):not(.edit) > .todoTxtItem)': function(event, target){
                     event.preventDefault();
 
-                    if(!toDoll.busy){
+                    if(!that.Assistant.busy){
                         that.Assistant.reset().setTalk('todoitem', 'mouseover_random').talk();
                     }
                 },
@@ -75,11 +74,11 @@
          */
 		check:function(){
 
-            this.Assistant.reset().setTalk('check','before');
-
-            if(this.busy){
+            if(this.Assistant.busy){
                 return false;
             }
+
+            this.Assistant.reset().setTalk('check','before');
 
 			 //ToDoがひとつも登録されていない
             if (! this.Todo.isEmpty()) {
@@ -132,9 +131,10 @@
          */
         reading:function(){
             var afterWords;
+            var that = this;
             var data = this.Todo.getData();
 
-            toDoll.busy = true;
+            this.Assistant.busy = true;
 
             var talk = [];
             for (var i = 0, l = data.length; i < l; i++) {
@@ -151,7 +151,7 @@
 
             afterWords = this.Assistant.getTalk('check','after');
             afterWords.getLast().callback = function(){
-                toDoll.busy = null;
+                that.Assistant.busy = null;
             };
 
             talk.append(afterWords);
@@ -209,6 +209,10 @@
 
             if( ! this.Todo.isAdd()){
                 return false;
+            }
+            
+            if(this.Assistant.busy){
+            	return false;
             }
 
             this.Assistant.reset()
@@ -335,7 +339,7 @@
         clearConf:function(){
             var count = this.Todo.getIndex();
 
-            if(toDoll.busy){
+            if(this.Assistant.busy){
                 return false;
             }
 
@@ -359,7 +363,7 @@
          */
         clear:function(ans, id){
 
-            if(toDoll.busy){
+            if(this.Assistant.busy){
                 return false;
             }
 
@@ -373,9 +377,9 @@
 
                 this.Assistant.setTalk('waiting').talk();
 
-                toDoll.busy = setTimeout(function(){
+                this.Assistant.busy = setTimeout(function(){
                     that.Todo.clear();
-                    toDoll.busy = null;
+                    that.Assistant.busy = null;
                     toDoll.todo = [];
                     that.container.empty();//画面に表示しているリストを削除
                     $('container').removeClass('showTodo');
@@ -485,6 +489,8 @@
          * @param ans
          */
         confirm:function(ans){
+        	
+        	var that = this;
 
             switch(ans){
 
@@ -495,15 +501,15 @@
                     break;
 
                 case 'well'://焦らす
-                    toDoll.wellCount++; //焦らしカウントアップ
+                    this.Assistant.wellCount++; //焦らしカウントアップ
 
-                    if(toDoll.wellCount > 3 || toDoll.wellLimit){//仏の顔も３度までって言うじゃん？
+                    if(this.Assistant.wellCount > 3 || this.Assistant.wellLimit){//仏の顔も３度までって言うじゃん？
                         return  this.clear('deny');
 
                     }else{
                         var data = this.Assistant.getTalk('confirm', 'well');
                         var last = data.getLast();
-                        last.callback = function(){ toDoll.welLimit = true; };
+                        last.callback = function(){ that.Assistant.welLimit = true; };
                         data.push(last);
 
                         this.Assistant.reset().setTalk(data).talk();
